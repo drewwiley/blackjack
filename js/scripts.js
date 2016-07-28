@@ -23,34 +23,50 @@ $(document).ready(function() {
 		shuffleDeck();
 		// Push onto the playersHand array, the new card. Then place it in the DOM
 		playersHand.push(theDeck[0]);
-		placeCard('player', 'one', theDeck[0]);
+		setTimeout(function(){
+		placeCard('player', 'one', theDeck[0])}, 500);
 		dealersHand.push(theDeck[1]);
-		placeCard('dealer', 'one', theDeck[1]);
+		setTimeout(function(){
+		placeCard('dealer', 'one', theDeck[1])}, 1000);
 		playersHand.push(theDeck[2]);
-		placeCard('player', 'two', theDeck[2]);
+		setTimeout(function(){
+		placeCard('player', 'two', theDeck[2])}, 1500);
 		dealersHand.push(theDeck[3]);
-		placeCard('dealer', 'two', theDeck[3]);
+		setTimeout(function(){
+		placeCard('dealer', 'two', theDeck[3])}, 2000);
+
+	setTimeout(function(){
+
 		calculateTotal(playersHand, 'player');
-		calculateTotal(dealersHand, 'dealer');
+		calculateTotal(dealersHand, 'dealer');}, 3000)
+
+		
+
 
 	});
 
 	$('.hit-button').click(function() {
+		var playerTotal = calculateTotal(playersHand, 'player');
+		if (playerTotal <= 21){
+			var slotForNewCard = '';
+			if(playersHand.length == 2){slotForNewCard = "three";}
+			else if(playersHand.length == 3){slotForNewCard = "four";}
+			else if(playersHand.length == 4){slotForNewCard = "five";}
+			else if(playersHand.length == 5){slotForNewCard = "six";}
+			placeCard('player', slotForNewCard, theDeck[topOfTheDeck])
+			playersHand.push(theDeck[topOfTheDeck]);
+			calculateTotal(playersHand, 'player');
+			topOfTheDeck++;
+			console.log(slotForNewCard);
 
-		var slotForNewCard = '';
-		if(playersHand.length == 2){slotForNewCard = "three";}
-		else if(playersHand.length == 3){slotForNewCard = "four";}
-		else if(playersHand.length == 4){slotForNewCard = "five";}
-		else if(playersHand.length == 5){slotForNewCard = "six";}
-		placeCard('player', slotForNewCard, theDeck[topOfTheDeck])
-		playersHand.push(theDeck[topOfTheDeck]);
-		calculateTotal(playersHand, 'player');
-		topOfTheDeck++;
-		console.log(slotForNewCard);
-
-
-	});
-
+			
+		}
+			else if (playerTotal > 21) {
+				$('.row-winner').html("You have busted with " +playerTotal + ". Click reset to deal again");
+			 $('.hit-button').prop('disabled', true);
+		}
+		
+});
 	$('.stand-button').click(function() {
 		var slotForNewCard = '';
 	
@@ -90,11 +106,12 @@ $(document).ready(function() {
 function placeCard(who, where, cardToPlace){
 	var classSelector = '.'+who+'-cards .card-'+where;
 
+	setTimeout(function(){
 
-	$(classSelector).html(cardToPlace);}
+	$(classSelector).html('<img src="cards/'+cardToPlace+'.png">');}, 500)
 
 
-
+}
 
 function createDeck(){
 	// Fill the deck with:
@@ -131,6 +148,7 @@ function shuffleDeck(){
 function calculateTotal(hand, whosTurn){
     // console.log(hand);
     // console.log(whosTurn);
+    var hasAce = false; //init Ace as false
     var cardValue = 0;
     var total = 0;
     for (var i = 0; i < hand.length; i++){
@@ -138,6 +156,15 @@ function calculateTotal(hand, whosTurn){
         if (cardValue > 10){
             cardValue = 10;
         }
+        else if (cardValue == 1 && ((total + 11) <= 21)) {
+        	cardValue = 11;
+        	hasAce = true;
+        }else if ((cardValue + total) > 22 && (hasAce)){
+        	total = total - 10;
+        	hasAce= false;
+        }
+
+
         total += cardValue;
     }
     // update the html with the new total
@@ -158,13 +185,14 @@ function checkWin() {
 	if (playersTotal > 21) {
 		// player has busted, set a message that says this
     $('.row-winner').text("You have busted with " +playersTotal + ". The dealer wins with " +dealerTotal + ". Click reset to deal again");
+	
 	}
 	else if (dealerTotal > 21) {
 		// Dealer has busted, set a message that says this
 		$('.row-winner').text("The dealer has busted with " +dealerTotal +". You win with " +playersTotal+ ". Click reset to deal again");
 	} else {
 		// Neither player has more than 21
-		if (playersTotal > dealerTotal) {
+		if (playersTotal > dealerTotal && dealerTotal < 21) {
 			// Player won. Say this somewhere
 			$('.row-winner').text("You win with " + playersTotal+". Dealer had "+dealerTotal+". Click reset to deal again");
 		}

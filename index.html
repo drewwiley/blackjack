@@ -9,7 +9,7 @@
 <link href='https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:400,700italic' rel='stylesheet' type='text/css'>
 	<script type="text/javascript" src="js/jquery.min.js">
 	</script>
-	<script type="text/javascript" src="js/scripts.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
 
 
 </head>
@@ -24,6 +24,7 @@
 
 	<div class="container">
 
+
 		<div class="row">
 			<div class="the-table col-sm-8 col-sm-offset-2">
 			<div class="backImage"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Casino_BlackJack.svg"></div><br>
@@ -33,7 +34,7 @@
 
 				</div>
 				<!-- DEALER ROW -->
-				<div class="row">
+				<div class="row special">
 					<div class="col-sm-12 dealer-hand-wrapper">
 						<!-- Dealer total on the left -->
 						<div class="col-sm-3 dealers-total">
@@ -81,20 +82,29 @@
 
 				</div> <!-- End player row -->
 				<br>
-				<div class="row player-actions">
+								<div class="row player-actions">
+					<div class="bank-display">
+						
+					</div>
 					<div class="col-sm-2 col-sm-offset-2">
-						<button class="deal-button">Deal</button>
+						<button class="deal-button">DEAL</button>
 					</div>
-					<div class="col-sm-2 col-sm-offset-1">
-						<button class="hit-button">Hit</button>
+					<div class="col-sm-2 col-sm-offset-0">
+						<button class="hit-button">HIT</button>
 					</div>
-					<div class="col-sm-2 col-sm-offset-1">
-						<button class="stand-button">Stand</button>
+					<div class="col-sm-2 col-sm-offset-0">
+						<button class="stand-button">STAND</button>
 					</div>
-					</div><br>
-				<div class="row reset">
-					<button class="col-sm-2 col-sm-offset-2 reset-button">Reset</button>
+					<div class="col-sm-2 col-sm-offset-0">
+						<button type="reset" class="reset-button">RESET</button>
+					</div>
+				</div><!-- End Player Actions -->
+				<div class=" row betting col-sm-8">
+					<div class="col-sm-2 col-sm-offset-4">
+						<img class="chips" src="chip.png">
+					</div>
 				</div>
+
 				
 			</div> <!-- End table -->
 		</div><!-- End row -->
