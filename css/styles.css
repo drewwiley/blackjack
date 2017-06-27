@@ -100,7 +100,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2ff52', end
 .col-sm-3.dealers-total {
 	font-size: 20px;
 	box-shadow: 3px;
-	border-right: red 5px solid;
 	border-radius: 50% 50% 60% 60%;
 	max-width: 18%;
 
@@ -109,7 +108,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2ff52', end
 
 .col-sm-3.players-total {
 	font-size: 20px;
-
+	border-right: red 5px solid;
 	box-shadow: 3px;
 
 	border-radius: 55% 55% 60% 60%;
@@ -134,3 +133,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2ff52', end
         min-height: 1136px;
         background-image: url(grain.jpg);
     }
+
+.card img {
+	max-width:  250%;
+}
+
+.row .betting img {
+	max-width:  100%;
+}
+
+.bank-display {
+	position: relative;
+	left: 50px;
+
+}

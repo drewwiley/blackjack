@@ -29,7 +29,7 @@ $(document).ready(function(){
 		cardsDealt = true;
 		calculateTotal(playersHand, 'player');
 		calculateTotal(dealersHand, 'dealer');
-		console.log(cardsDealt);
+		setTimeout(checkBJ,2800);
 	});
 	$('.hit-button').click(function(){
 		var playerTotal = calculateTotal(playersHand, 'player');
@@ -51,8 +51,11 @@ $(document).ready(function(){
 			playersHand.push(theDeck[topOfTheDeck]);
 			calculateTotal(playersHand, 'player');
 			topOfTheDeck++;
+			setTimeout(checkBJ,500);
+			setTimeout(checkBust,501);
 		}
 	});
+	
 	$('.stand-button').click(function(){
 		// Player clicked on stand, wait for dealer to finish their whosTurn
 		var dealerTotal = calculateTotal(dealersHand, 'dealer');
@@ -73,10 +76,11 @@ $(document).ready(function(){
 			placeCard('dealer', slotForNewCard, theDeck[topOfTheDeck]);
 			dealersHand.push(theDeck[topOfTheDeck]);
 			dealerTotal = calculateTotal(dealersHand, 'dealer');
+			dealersTotal = calculateTotal(dealersHand, 'dealer');
 			topOfTheDeck++;
 		}
-		// Dealer has at least 17. Check to see who whosTurn
-		checkWin();
+		
+			setTimeout(checkWin,1000);
 	});
 	$('.reset-button').click(function(){
 		 playersHand = []; // empty the players hand
@@ -90,6 +94,7 @@ $(document).ready(function(){
         $('.dealer-total-number').text('0'); // reset number in dealer total html
         $('.hit-button').prop('disabled', false);
 		$('.stand-button').prop('disabled', false);
+		$('.deal-button').prop('disabled', false);
 	});
 });
 function placeBet(){
@@ -98,14 +103,43 @@ function placeBet(){
 			playerBank -= 1;
 			$('.bank-display').html('Bank: ' +playerBank + '<br>Bet: '+ betAmount);
 	}
+} 
+
+// Get player total
+var playersTotal = calculateTotal(playersHand, 'player');
+// Get dealer total
+var dealersTotal = calculateTotal(dealersHand, 'dealer');
+
+function checkBJ(){
+	playersTotal = calculateTotal(playersHand, 'player');
+	dealersTotal = calculateTotal(dealersHand, 'dealer');
+	if(playersTotal == 21){
+		alert('BLACKJACK!');
+		playerBank += (((betAmount * 2)*2)-betAmount);
+		$('.bank-display').html('Bank: ' +playerBank + '<br>Bet: 0');
+		}
+	if(dealersTotal == 21) {
+		alert('Dealer has BLACKJACK!');
+		playerBank -= (((betAmount * 2)*2)-betAmount);
+		$('.bank-display').html('Bank: ' +playerBank + '<br>Bet: 0');
+	}else{
+		console.log(cardsDealt);}
 }
-function checkWin(){
-	// Get player total
-	var playersTotal = calculateTotal(playersHand, 'player');
-	// Get dealer total
-	var dealersTotal = calculateTotal(dealersHand, 'dealer');
+
+function checkBust(){
+	playersTotal = calculateTotal(playersHand, 'player');
 	if(playersTotal > 21){
 		alert('You Bust!');
+		playerBank -= (betAmount*2);
+		$('.bank-display').html('Bank: ' +playerBank + '<br>Bet: 0');
+	}else{
+		console.log(playerBank)
+	}
+}
+function checkWin(){
+	if(playersTotal > 21){
+		alert('You Bust!');
+		playerBank -= (betAmount*2)
 		$('.bank-display').html('Bank: ' +playerBank + '<br>Bet: 0');
 	}
 	else if(playersTotal == 21){
